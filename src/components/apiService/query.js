@@ -12,6 +12,5 @@ axios.defaults.params = {
 export const fetchQuery = async (queryString, page) => {
   const response = await axios.get(`?query=${queryString}&page=${page}`);
   const { results, total, total_pages } = response.data;
-  console.log({ results, total, total_pages });
   return { results, total, total_pages };
 };
