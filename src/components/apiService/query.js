@@ -10,7 +10,8 @@ axios.defaults.params = {
 };
 
 export const fetchQuery = async (queryString, page) => {
-  const response = await axios.get(`?query=${queryString}&page=${page}`);
+  const response = await axios.get(`?query=${queryString.split('/')[1]}&page=${page}`);
+  console.log('залишилося запитів:', response.headers['x-ratelimit-remaining']);
   const { results, total, total_pages } = response.data;
   return { results, total, total_pages };
 };

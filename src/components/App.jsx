@@ -5,6 +5,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Loader } from './Loader/Loader';
 import { ErrorMessage } from './ErrorMessage/ErrorMessage';
+import { LoadMoreBtn } from './LoadMoreBtn/LoadMoreBtn';
 
 export const App = () => {
   const [queryString, setQuery] = useState('');
@@ -12,6 +13,7 @@ export const App = () => {
   const [images, setImages] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [totalPages, setTotalPages] = useState(0);
 
   const errorText = useRef(null);
 
@@ -19,15 +21,15 @@ export const App = () => {
     event.preventDefault();
     const input = event.target.elements[0].value;
     if (!input.trim()) {
-      toast.error('Потрібно заповнити поле вводу!');
+      return toast.error('Please, fill input field for search!');
     }
     setPage(1);
+    setQuery(`${Date.now()}/${input}`);
     setImages([]);
     setIsVisible(false);
     setIsError(false);
     errorText.current = null;
-    setQuery(input);
-    event.target.reset();
+    // event.target.reset();
   };
 
   useEffect(() => {
@@ -35,26 +37,41 @@ export const App = () => {
     setIsVisible(true);
     fetchQuery(queryString, page)
       .then(response => {
-        const { results } = response;
+        const { results, total_pages } = response;
+        console.log(totalPages);
+        setTotalPages(total_pages);
         results.length > 0
           ? setImages(prev => [...prev, ...results])
           : (setIsError(true),
             (errorText.current = 'By your query there is nothing to show...'));
       })
-      .catch(() => {setIsError(true); (errorText.current = 'Something went wrong...')})
+      .catch(() => {
+        setIsError(true);
+        errorText.current =
+          'Something went wrong... Try to reload page or contact your provider';
+      })
       .finally(() => setIsVisible(false));
-  }, [queryString, page]);
+  }, [queryString, page, totalPages]);
+ 
+  const handleClick = () => {
+    setPage(page + 1);
+  };
 
   return (
     <div>
       <SearchBar onSubmit={onSubmit} />
       <Toaster position="top-right" reverseOrder={true} />
-      {isError ? (
-        <ErrorMessage data={errorText.current} />
+      {!isError ? (
+        <>
+          <ImageGallery images={images} />
+          {images.length > 0 && page < totalPages && (
+            <LoadMoreBtn onClick={handleClick} />
+          )}
+        </>
       ) : (
-        <ImageGallery images={images} />
+        <ErrorMessage data={errorText.current} />
       )}
-      {<Loader visible={isVisible} />}
+      {isVisible && <Loader visible={isVisible} />}
     </div>
   );
 };

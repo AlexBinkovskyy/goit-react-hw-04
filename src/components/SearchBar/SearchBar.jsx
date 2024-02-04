@@ -1,9 +1,12 @@
-export const SearchBar = ({onSubmit}) => {
+import { useId } from 'react';
 
+export const SearchBar = ({ onSubmit }) => {
+  const inputId = useId();
   return (
     <header>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} >
         <input
+          id={inputId}
           type="text"
           autoComplete="off"
           autoFocus
