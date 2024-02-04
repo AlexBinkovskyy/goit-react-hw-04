@@ -1,4 +1,5 @@
 export const SearchBar = ({onSubmit}) => {
+
   return (
     <header>
       <form onSubmit={onSubmit}>
