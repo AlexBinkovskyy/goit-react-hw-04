@@ -4,6 +4,7 @@ export const ImageGallery = ({ images }) => {
   return (
     <ul>
       {images.map(image => {
+        // console.log(image);
         const { small, regular, alt_description: alt } = image.urls;
         const refs = { small: small, regular: regular };
         return (

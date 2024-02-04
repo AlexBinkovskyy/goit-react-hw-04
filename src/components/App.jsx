@@ -13,8 +13,8 @@ export const App = () => {
   const [images, setImages] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [totalPages, setTotalPages] = useState(0);
 
+  const totalPage = useRef(0);
   const errorText = useRef(null);
 
   const onSubmit = event => {
@@ -38,8 +38,7 @@ export const App = () => {
     fetchQuery(queryString, page)
       .then(response => {
         const { results, total_pages } = response;
-        console.log(totalPages);
-        setTotalPages(total_pages);
+        totalPage.current = total_pages;
         results.length > 0
           ? setImages(prev => [...prev, ...results])
           : (setIsError(true),
@@ -51,8 +50,8 @@ export const App = () => {
           'Something went wrong... Try to reload page or contact your provider';
       })
       .finally(() => setIsVisible(false));
-  }, [queryString, page, totalPages]);
- 
+  }, [queryString, page]);
+
   const handleClick = () => {
     setPage(page + 1);
   };
@@ -64,7 +63,7 @@ export const App = () => {
       {!isError ? (
         <>
           <ImageGallery images={images} />
-          {images.length > 0 && page < totalPages && (
+          {images.length > 0 && page < totalPage.current && (
             <LoadMoreBtn onClick={handleClick} />
           )}
         </>
