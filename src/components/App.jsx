@@ -6,7 +6,7 @@ import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Loader } from './Loader/Loader';
 import { ErrorMessage } from './ErrorMessage/ErrorMessage';
 import { LoadMoreBtn } from './LoadMoreBtn/LoadMoreBtn';
-import {MagnifyingGlass} from 'react-loader-spinner'
+import { MagnifyingGlass } from 'react-loader-spinner';
 
 export const App = () => {
   const [queryString, setQuery] = useState('');
@@ -71,7 +71,7 @@ export const App = () => {
                 height="80"
                 width="80"
                 ariaLabel="magnifying-glass-loading"
-                wrapperClass="magnifying-glass-wrapper"
+                wrapperClass="loaderMag"
                 glassColor="#c0efff"
                 color="#3d68f7"
               />

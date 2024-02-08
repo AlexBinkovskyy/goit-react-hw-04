@@ -1,14 +1,14 @@
 import { ImageCard } from '../ImageCard/ImageCard';
+import style from './ImageGallery.module.css';
 
 export const ImageGallery = ({ images }) => {
   return (
-    <ul>
+    <ul className={style.list}>
       {images.map(image => {
         const { small, regular, alt_description: alt } = image.urls;
-        const refs = { small: small, regular: regular };
         return (
-          <li key={image.id}>
-            <ImageCard src={refs} alt={alt} regular={regular} />
+          <li key={image.id} className={style.listItem}>
+            <ImageCard small={small} alt={alt} regular={regular} />
           </li>
         );
       })}

@@ -6,7 +6,7 @@ axios.defaults.baseURL = 'https://api.unsplash.com/search/photos';
 axios.defaults.headers.common['Authorization'] = ACCESS_KEY;
 axios.defaults.params = {
   orientation: 'landscape',
-  per_page: 15,
+  per_page: 16,
 };
 
 export const fetchQuery = async (queryString, page) => {

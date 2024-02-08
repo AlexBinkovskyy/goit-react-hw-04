@@ -1,4 +1,5 @@
-export const LoadMoreBtn = ({onClick}) => {
+import style from './LoadMoreBtn.module.css'
 
-    return <button type="submit" onClick={onClick}>Load more images</button>
+export const LoadMoreBtn = ({onClick}) => {
+    return <button type="submit" onClick={onClick} className={style.button}>Load more images</button>
 };
