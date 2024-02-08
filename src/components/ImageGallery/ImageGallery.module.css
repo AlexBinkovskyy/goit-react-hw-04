@@ -5,6 +5,7 @@
   align-items: center;
   column-gap: 30px;
   row-gap: 30px;
+  margin-bottom: 50px;
 }
 
 .listItem {
@@ -19,6 +20,3 @@
   transform: scale(1.01);
 }
 
-.listItem:last-child {
-  margin-bottom: 50px;
-}
