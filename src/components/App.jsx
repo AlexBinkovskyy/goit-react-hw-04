@@ -6,6 +6,7 @@ import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Loader } from './Loader/Loader';
 import { ErrorMessage } from './ErrorMessage/ErrorMessage';
 import { LoadMoreBtn } from './LoadMoreBtn/LoadMoreBtn';
+import {MagnifyingGlass} from 'react-loader-spinner'
 
 export const App = () => {
   const [queryString, setQuery] = useState('');
@@ -29,7 +30,6 @@ export const App = () => {
     setIsVisible(false);
     setIsError(false);
     errorText.current = null;
-    // event.target.reset();
   };
 
   useEffect(() => {
@@ -63,9 +63,21 @@ export const App = () => {
       {!isError ? (
         <>
           <ImageGallery images={images} />
-          {images.length > 0 && page < totalPage.current && (
-            <LoadMoreBtn onClick={handleClick} />
-          )}
+          {images.length > 0 &&
+            page < totalPage.current &&
+            (isVisible ? (
+              <MagnifyingGlass
+                visible={true}
+                height="80"
+                width="80"
+                ariaLabel="magnifying-glass-loading"
+                wrapperClass="magnifying-glass-wrapper"
+                glassColor="#c0efff"
+                color="#3d68f7"
+              />
+            ) : (
+              <LoadMoreBtn onClick={handleClick} />
+            ))}
         </>
       ) : (
         <ErrorMessage data={errorText.current} />
