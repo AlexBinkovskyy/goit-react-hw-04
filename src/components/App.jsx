@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { SearchBar } from './SearchBar/SearchBar';
-import { fetchQuery } from './apiService/query';
+import { fetchQuery } from '../apiService/query';
 import toast, { Toaster } from 'react-hot-toast';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Loader } from './Loader/Loader';
@@ -14,8 +14,7 @@ export const App = () => {
   const [images, setImages] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
   const [isError, setIsError] = useState(false);
-
-  const totalPage = useRef(0);
+  const [totalPage, setTotalPage] = useState(0);
   const errorText = useRef(null);
 
   const onSubmit = event => {
@@ -38,7 +37,7 @@ export const App = () => {
     fetchQuery(queryString, page)
       .then(response => {
         const { results, total_pages } = response;
-        totalPage.current = total_pages;
+        setTotalPage(total_pages);
         results.length > 0
           ? setImages(prev => [...prev, ...results])
           : (setIsError(true),
@@ -64,7 +63,7 @@ export const App = () => {
         <>
           <ImageGallery images={images} />
           {images.length > 0 &&
-            page < totalPage.current &&
+            page < totalPage &&
             (isVisible ? (
               <MagnifyingGlass
                 visible={true}
